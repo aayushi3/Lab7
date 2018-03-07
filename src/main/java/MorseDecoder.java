@@ -87,7 +87,46 @@ public class MorseDecoder {
         // else if issilence and wassilence
         // else if issilence and not wassilence
 
-        return "";
+        String answer = "";
+
+        boolean ispower = true;
+        boolean waspower = true;
+        boolean issilence = true;
+        boolean wassilence = true;
+
+        int counterPower = 0;
+        int counterSilence = 0;
+
+        for (int i = 0; i < powerMeasurements.length; i++) {
+            if (powerMeasurements[i] > POWER_THRESHOLD) {
+                ispower = true;
+                issilence = false;
+            } else {
+                issilence = true;
+                ispower = false;
+            }
+        }
+
+        if (ispower && waspower) {
+            counterPower++;
+        } else if (ispower && !waspower) {
+            if (counterPower > DASH_BIN_COUNT) {
+                answer = answer + "-";
+            } else {
+                answer = answer + ".";
+            }
+            counterPower = 0;
+        } else if (issilence && wassilence) {
+            counterSilence++;
+        } else if (issilence && !wassilence) {
+            if (counterSilence > DASH_BIN_COUNT) {
+                answer = answer + " ";
+            } else {
+            }
+            counterSilence = 0;
+        }
+
+        return answer;
     }
 
     /**
